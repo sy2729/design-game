@@ -40,14 +40,58 @@
 
 	<!-- **Font Awesome** -->
 	<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+	<style>
+		.relative {
+			position: relative;
+		}
+		.fixed {
+			position: fixed;
+		}
+		.hide {
+			display: none;
+		}
+		.modal {
+			width: 40%;
+			min-width: 300px;
+			height: 600px;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			background: #eec106;
+			z-index: 10;
+		}
+		.cover {
+			transition: filter 1s;
+			z-index: 9;
+		}
 
+		.cover.active {
+			filter: blur(4px);
+		}
+
+		.modal img {
+			height: 80%;
+		}
+		button.classic {
+			padding: 8px 9px;
+			background: #eec106;
+			font-family: 'PT Sans Narrow', sans-serif;
+			text-transform: uppercase;
+			border: none;
+			cursor: pointer;
+			font-size: 1em;
+		}
+	</style>
 </head>
 
 <body>
 
 	<!-- **Wrapper** -->
-	<div class="wrapper">
-		<div class="inner-wrapper">
+	<div class="wrapper relative">
+		<div class="fixed modal hide">
+			<img src="javascript:;" alt="generatedImage">
+		</div>
+		<div class="inner-wrapper cover">
 			<div id="header-wrapper" class="dt-sticky-menu">
 				<!-- **header-wrapper Starts** -->
 
@@ -71,9 +115,10 @@
 							<h3> Design Your Own Style </h3>
 							<p>Choose accessory from each category.<p>
 						</div>
-						<div class="cart-wrapper">
+						<div class="cart-wrapper relative"  id="capture">
+							<button id="save" class="classic">save</button>
 							<!-- *cart-wrapper starts here** -->
-							<div class="dt-sc-three-fifth column first ">
+							<div class="dt-sc-three-fifth column first">
 								<div class="cart-thumb">
 									<a href="#">
 										<img style="height:800px;margin-left:120px;" src="images/modelsketch.jpg" alt="" title="Acrylic" id="base">
@@ -474,6 +519,7 @@
 
 
 	<script type="text/javascript" src="js/jquery.dropdown.js"></script>
+	<script type="text/javascript" src="js/html2canvas.js"></script>
 
 
 	<script src="js/jsplugins.js" type="text/javascript"></script>
@@ -554,6 +600,39 @@
 				showAndHide('shoe');
 			});
 		});
+
+
+
+		let $modal = $('.modal');
+		$('#save').click(()=>{
+			html2canvas(document.querySelector("#capture")).then(canvas => {
+				var new_canvas = document.createElement('canvas');
+				new_canvas.width = 900;
+				new_canvas.height = 1800;
+				new_canvas.getContext('2d').drawImage(canvas, 150, 100);
+				var img = new_canvas.toDataURL("image/png");
+				// activate cover
+				$('.cover').addClass('active');
+
+				// show modal
+				$modal.find('img').attr('src',img)
+				$modal.fadeIn()
+					// document.body.appendChild(canvas)
+			});
+		})
+
+		$modal.click((e)=>{
+			e.stopPropagation();
+		})
+
+		$('body').click(()=>{
+			$modal.fadeOut();
+
+			$('.cover').removeClass('active');
+		})
+
+
+
 	</script>
 
 </body>
