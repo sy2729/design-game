@@ -51,7 +51,7 @@
 
 
 
-	.draggable { width: 102px;  padding: 5px; }
+	.draggable { width: 102px;  padding: 5px;cursor: pointer; }
 	  .draggable img { text-align: center; margin: 0; }
 	.nobr {	white-space: nowrap}
 
