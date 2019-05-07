@@ -133,6 +133,9 @@
 .modal div form {
   padding: 50px;
 }
+.modal div form.disabled {
+  cursor: wait;
+}
 
 .modal div form .classic-btn {
   margin-top: 2em;
@@ -141,7 +144,6 @@
 
 .modal div form .classic-btn.disabled {
   pointer-events: none;
-  cursor: wait;
 }
 
 input.classic-btn, button.classic-btn {

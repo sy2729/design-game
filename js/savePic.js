@@ -35,9 +35,7 @@ $('body').click(()=>{
 $('form').submit((e)=>{
   e.preventDefault();
 
-  //disable the button to prevent submit again
   let $shareBtn = $('form').find('.classic-btn');
-  $shareBtn.addClass('disabled').attr('placeholder', 'sharing, please wait...');
 
   //get the name;
   let name = $('form').find('.name input')[0].value;
@@ -45,13 +43,20 @@ $('form').submit((e)=>{
     jQuery.notify("please input valid name",'error');
     return
   }
+
+  //disable the button to prevent submit again
+  $shareBtn.addClass('disabled').attr('value', 'sharing, please wait...');
+  $('form').addClass('disabled');
+
   //save to firebase
   API.addPicture(name,imageData)
     .then(e=>{
       jQuery.notify(`Thanks ${name}, your work is shared successfully`,'success');
 
       // recover the share button
-      $shareBtn.removeClass('disabled').attr('placeholder', 'share your work');
+      $shareBtn.removeClass('disabled').attr('value', 'share your work');
+      $('form').removeClass('disabled');
+
       //clear the input
       $('form').find('.name input')[0].value = '';
 
